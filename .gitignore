@@ -1,5 +1,8 @@
 .settings
 .idea
+.cproject
+.project
+.DS_Store
 cmake-build-*
 build
 *.a
@@ -21,5 +24,31 @@ canary.zip
 .sconsign.dblite
 bin
 *~
-.cproject
-.project
+# sympy
+*.sout
+*.sympy
+# cpp, java, py, ocaml, llvm
+*.d
+*.slo
+*.lo
+*.obj
+*.gch
+*.pch
+*.dll
+*.lai
+*.la
+*.lib
+*.exe
+*.out
+*.app
+*.cma
+*.cmo
+*.cmi
+*.cmxa
+*.class
+*.pyc
+*.pyo
+# Directories, log, ..
+callgrind.out.*
+.z3-trace
+dist/*
