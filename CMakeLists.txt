@@ -31,6 +31,24 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 include_directories(${LLVM_INCLUDE_DIRS})
 include_directories(AFTER ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
+find_library(
+  Z3_LIBRARIES
+  NAMES z3
+  HINTS ${Z3_DIR} ENV Z3_DIR
+  PATH_SUFFIXES bin lib)
+find_path(
+  Z3_INCLUDES
+  NAMES z3++.h
+  HINTS ${Z3_DIR} ENV Z3_DIR
+  PATH_SUFFIXES include z3)
+if(NOT Z3_LIBRARIES OR NOT Z3_INCLUDES)
+  message(FATAL_ERROR "Z3 not found!")
+endif()
+message(STATUS "Found Z3: ${Z3_LIBRARIES}")
+message(STATUS "Z3 include dir: ${Z3_INCLUDES}")
+
+include_directories(${Z3_INCLUDES})
+                    
 add_subdirectory(lib)
 add_subdirectory(tools)
 add_subdirectory(benchmarks)

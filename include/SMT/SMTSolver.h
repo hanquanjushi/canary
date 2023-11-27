@@ -24,7 +24,7 @@ public:
 private:
 	z3::solver Solver;
 
-	z3::model ModelCache;
+	// z3::model ModelCache;
 	// heuristic: as solver is called incrementally, the initial queries are small
 	// and the ModelCache may fail
 	unsigned checkCount;

@@ -1,12 +1,13 @@
 Canary
 ======
 
-Canary features a unification-based alias analysis (/lib) and related tools (/tools).
-We have built and tested them on x86 linux architectures using llvm-12.
+Canary is a program analysis and verification framework. It provides severl toolkits that can be used
+individully or in combination to perform different tasks.
+The current version of Canary has been tested on x86 Linux architectures using LLVM-12 and Z3-4.11.
 
-- Alias analysis
+- Alias analysis: a unification-based alias analysis
 - SMT solving
-- Targeted pre-condition inference (TBD)
+- Pre-condition inferencer(TBD)
 - Symbolic emulation (TBD)
 
 Building 
@@ -21,8 +22,10 @@ cmake ..
 make
 ```
 
+We asume that the system has the right versions of llvm and Z3.
 
-Using the alias analysis
+
+Using the Alias Analysis
 ------
 
 Build and link the lib files to your project and use `DyckAliasAnalysis` as a common Mod pass. 
@@ -59,3 +62,6 @@ This option is used to print a call graph based on the alias analysis.
 You can use it with -with-labels option, which will add lables (call insts)
 to the edges in call graphs.
 
+
+Using the SMT Solver
+------

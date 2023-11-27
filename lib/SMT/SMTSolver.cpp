@@ -1,5 +1,4 @@
 #include <llvm/Support/CommandLine.h>
-#include <llvm/Support/Debug.h>
 
 #include "SMT/SMTSolver.h"
 #include "SMT/SMTFactory.h"
@@ -41,14 +40,14 @@ static llvm::cl::opt<int> EnableLocalSimplify("enable-local-simplify",
 		llvm::cl::desc(
 				"Enable local simplifications while adding a vector of constraints"));
 
-static llvm::cl::opt<int> EnableModelCache("enable-model-cache",
-		llvm::cl::init(0), llvm::cl::desc("Enable satisfying model cache"));
+// static llvm::cl::opt<int> EnableModelCache("enable-model-cache",
+//		llvm::cl::init(0), llvm::cl::desc("Enable satisfying model cache"));
 
 // only for debugging (single-thread)
 bool SMTSolvingTimeOut = false;
 
 SMTSolver::SMTSolver(SMTFactory *F, z3::solver &Z3Solver, z3::model &Z3Model) :
-		SMTObject(F), Solver(Z3Solver), ModelCache(Z3Model), checkCount(0) {
+		SMTObject(F), Solver(Z3Solver), checkCount(0) {
 	if (SMTSolver::GlobalTimeout > 0) {
 		z3::params Z3Params(Z3Solver.ctx());
 		Z3Params.set("timeout", (unsigned) SMTSolver::GlobalTimeout);
@@ -79,10 +78,6 @@ SMTSolver::SMTResultType SMTSolver::check(unsigned Timeout) {
 	z3::check_result Result;
 	try {
 		clock_t Start;
-		DEBUG(
-				std::cerr << "\nStart solving! Constraint Size: " << assertions().constraintSize() << "/" << assertions().size() << "\n"; Start =
-						clock()
-				);
 				if (DumpingConstraintsTimeout.getNumOccurrences()) {
 					Start = clock();
 				}
@@ -112,28 +107,9 @@ SMTSolver::SMTResultType SMTSolver::check(unsigned Timeout) {
 						Z3Solver4Sim.add(Whole.Expr);
 					}
 
-					DEBUG(
-							std::cerr << "Simplifying Done: ("
-									<< (double) (clock() - Start) * 1000
-											/ CLOCKS_PER_SEC << ")\n");
-
 					Result = Z3Solver4Sim.check();
 				} else {
-					// In the beginning, the constraint is usually small; we set a "starting point" with checkCount
-					// We restrict the number of missCount of each solver, which will possibly also reduce the number of cache hit.
-					// TODO: a better approach might be to track "last K hit" and/or "last K miss"
-					if (checkCount > 6 && EnableModelCache.getValue()) {
-						//if (checkCount > 6 && missCount <= 25 && EnableModelCache.getValue()) {
-						if (ModelCache.eval(this->assertions().toAndExpr().Expr,
-								true).decl().decl_kind() == Z3_OP_TRUE) {
-							//Result = z3::check_result::sat;
-							return SMTResultType::SMTRT_Sat;
-						} else {
-							Result = Solver.check();
-						}
-					} else {
-						Result = Solver.check();
-					}
+					Result = Solver.check();
 				}
 
 				if (DumpingConstraintsTimeout.getNumOccurrences()) {
@@ -163,15 +139,7 @@ SMTSolver::SMTResultType SMTSolver::check(unsigned Timeout) {
 					} else {
 						SMTSolvingTimeOut = false;
 					}
-					DEBUG(
-							std::cerr << "Solving done: (" << TimeCost << ", "
-									<< Result << ")\n");
 				} else {
-					DEBUG(
-							std::cerr << "Solving done: ("
-									<< (double) (clock() - Start) * 1000
-											/ CLOCKS_PER_SEC << ", " << Result
-									<< ")\n");
 				}
 			} catch (z3::exception &Ex) {
 				std::cerr << __FILE__ << " : " << __LINE__ << " : " << Ex
@@ -185,15 +153,6 @@ SMTSolver::SMTResultType SMTSolver::check(unsigned Timeout) {
 			switch (Result) {
 			case z3::check_result::sat:
 				RetVal = SMTResultType::SMTRT_Sat;
-				// TODO: this will update the ModelCache, but
-				// 1. will the previous model objects cause memory leak?
-				// 2. will the solver be called concurrently(thus lead to data race/...)?
-				// 3. the solver is used with push/pop/reset, what about the model...
-				//if (missCount <= 25) {
-				if (EnableModelCache.getValue()) {
-					ModelCache = Solver.get_model();
-				}
-				//}
 				break;
 			case z3::check_result::unsat:
 				RetVal = SMTResultType::SMTRT_Unsat;

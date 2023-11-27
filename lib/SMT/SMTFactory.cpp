@@ -1,23 +1,11 @@
-#include <llvm/Support/Debug.h>
-#include <llvm/Support/CommandLine.h>
+
 
 #include "SMT/SMTFactory.h"
 #include "SMT/SMTConfigure.h"
 
 #define DEBUG_TYPE "smt-fctry"
 
-#include <llvm/Support/Debug.h>
-#include <llvm/Support/CommandLine.h>
 
-static llvm::cl::opt<bool> EnableSatProbing("enable-sat-probing",
-		llvm::cl::init(false),
-		llvm::cl::desc(
-				"Enable sat probing during global simplification of sat, default false"));
-
-static llvm::cl::opt<bool> EnableSatPreSimplify("enable-sat-pre-simplify",
-		llvm::cl::init(false),
-		llvm::cl::desc(
-				"Enable pre_simplification before sat burst search, default false"));
 
 SMTFactory::SMTFactory() :
 		TempSMTVaraibleIndex(0) {
@@ -59,8 +47,6 @@ std::pair<SMTExprVec, bool> SMTFactory::rename(const SMTExprVec &Exprs,
 		const std::string &RenamingSuffix,
 		std::unordered_map<std::string, SMTExpr> &Mapping,
 		SMTRenamingAdvisor *Advisor) {
-
-	DEBUG(llvm::dbgs() << "Start translating and pruning ...\n");
 
 	SMTExprVec RetExprVec = this->createEmptySMTExprVec();
 	bool RetBool = false; // the constraint is pruned?
@@ -158,7 +144,6 @@ std::pair<SMTExprVec, bool> SMTFactory::rename(const SMTExprVec &Exprs,
 		RetExprVec.push_back(Ret);
 	}
 
-	DEBUG(llvm::dbgs() << "End translating and pruning ...\n");
 
 	return std::make_pair(RetExprVec, RetBool);
 }
@@ -247,31 +232,19 @@ bool SMTFactory::visit(SMTExpr &Expr2Visit,
 }
 
 SMTSolver SMTFactory::createSMTSolver() {
-	std::string &Tactic = SMTConfigure::Tactic;
 	z3::solver Ret(Ctx);
 	// If Tactic == qfbv_tactic or pp_qfbv_tactic,
 	// only use the result of the incremental solver.
 	// That is, when the incremental solver returns unknown,
 	// just return unknown.
-	//std::string& Tactic = IncTactic.getValue();
+	/* std::string& Tactic = IncTactic.getValue();
 	if (Tactic == "pp_qfbv_tactic" || Tactic == "pp_qfbv_light_tactic"
 			|| Tactic == "pp_inc_bv_solver" || Tactic == "qfbv_tactic") {
 		z3::params Z3Params(Ctx);
 		Z3Params.set("solver2_unknown", 0u);
-		if (Tactic == "pp_qfbv_light_tactic") {
-			if (!EnableSatProbing.getValue()) {
-				// do not apply failed literal probing during sat solving.
-				Z3Params.set("enable_probing", false);
-			}
-			if (!EnableSatPreSimplify.getValue()) {
-				// do not apply pre_simplify during sat burst search.
-				Z3Params.set("enable_pre_simplify", false);
-			}
-			Z3Params.set("burst_search", 150u); // num. of search before first global simplifications, z3 default 100
-			Z3Params.set("restart.initial", 150u); // num. of conflicts before first restart, z3 default 100
-		}
 		Ret.set(Z3Params);
 	}
+	*/
 
 	Ret.check(); // a trick for initializing the ModelCache(In version 4.6 we can construct a model without the solver)
 	z3::model Z3Model = Ret.get_model();
@@ -286,20 +259,6 @@ SMTSolver SMTFactory::createSMTSolverWithTactic(const std::string &Tactic) {
 		return SMTSolver(this, Ret, Z3Model);
 	} else {
 		z3::solver Ret = z3::tactic(Ctx, Tactic.c_str()).mk_solver();
-		if (Tactic == "pp_qfbv_light") {
-			z3::params Z3Params(Ctx);
-			Z3Params.set("solver2_unknown", 0u);
-			Z3Params.set("enable_probing", false);
-			Z3Params.set("enable_pre_simplify", false);
-			Z3Params.set("burst_search", 150u);
-			Z3Params.set("restart.initial", 150u);
-			Ret.set(Z3Params);
-		} else if (Tactic == "pp_sat_light") {
-			z3::params Z3Params(Ctx);
-			Z3Params.set("enable_pre_simplify", true);
-			Z3Params.set("max_conflicts", 0u); // this is "dangerous"(currently we set it to make the solver deterministic)
-			Ret.set(Z3Params);
-		}
 		Ret.check();  // a trick for initializing the ModelCache
 		z3::model Z3Model = Ret.get_model();
 		return SMTSolver(this, Ret, Z3Model);
@@ -329,18 +288,20 @@ SMTExprVec SMTFactory::createSMTExprVec(const std::vector<SMTExpr> &ExprVec) {
 SMTExpr SMTFactory::createSMTExprFromStream(std::string &ExprStr) {
 	// TODO: the created SMTExpr looses type info of variables.
 	//
-	return SMTExpr(this, Ctx.parse_string(ExprStr.c_str()));
+	return SMTExpr(this, z3::mk_and(Ctx.parse_string(ExprStr.c_str())));
 }
 
 SMTExpr SMTFactory::parseSMTLib2File(const std::string &FileName) {
-	Z3_ast Ast = Z3_parse_smtlib2_file(Ctx, FileName.c_str(), 0, 0, 0, 0, 0, 0);
-	z3::expr Whole(Ctx, Ast);
+	// Z3_ast_vector AstV = Z3_parse_smtlib2_file(Ctx, FileName.c_str(), 0, 0, 0, 0, 0, 0);
+	// z3::expr Whole(Ctx, Ast);
+	z3::expr Whole = z3::mk_and(Ctx.parse_file(FileName.c_str()));
 	return SMTExpr(this, Whole);
 }
 
 SMTExpr SMTFactory::parseSMTLib2String(const std::string &Raw) {
-	Z3_ast Ast = Z3_parse_smtlib2_string(Ctx, Raw.c_str(), 0, 0, 0, 0, 0, 0);
-	z3::expr Whole(Ctx, Ast);
+	// Z3_ast Ast = Z3_parse_smtlib2_string(Ctx, Raw.c_str(), 0, 0, 0, 0, 0, 0);
+	// z3::expr Whole(Ctx, Ast);
+	z3::expr Whole = z3::mk_and(Ctx.parse_string(Raw.c_str()));
 	return SMTExpr(this, Whole);
 }
 
@@ -380,7 +341,7 @@ SMTExpr SMTFactory::createBoolConst(const std::string &Name) {
 }
 
 SMTExpr SMTFactory::createBitVecVal(uint64_t Val, uint64_t Sz) {
-	return SMTExpr(this, Ctx.bv_val((__uint64 ) Val, Sz));
+	return SMTExpr(this, Ctx.bv_val((__uint64_t ) Val, Sz));
 }
 
 SMTExpr SMTFactory::createIntVal(int Val) {

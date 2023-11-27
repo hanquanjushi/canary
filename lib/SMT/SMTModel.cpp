@@ -1,5 +1,8 @@
 #include "SMT/SMTModel.h"
 #include "SMT/SMTFactory.h"
+#include <string>
+#include <sstream>
+
 
 SMTModel::SMTModel(SMTFactory *F, z3::model Z3Model) :
 		SMTObject(F), Model(Z3Model) {
