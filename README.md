@@ -4,6 +4,10 @@ Canary
 Canary features a unification-based alias analysis (/lib) and related tools (/tools).
 We have built and tested them on x86 linux architectures using llvm-12.
 
+- Alias analysis
+- SMT solving
+- Targeted pre-condition inference (TBD)
+- Symbolic emulation (TBD)
 
 Building 
 ------
