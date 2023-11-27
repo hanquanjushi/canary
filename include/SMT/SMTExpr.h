@@ -1,5 +1,4 @@
-#ifndef SMT_SMTEXPR_H
-#define SMT_SMTEXPR_H
+#pragma once
 
 #include <map>
 #include <iostream>
@@ -453,4 +452,3 @@ public:
 	bool SMTExprVecToStream(std::ostream &Out);
 };
 
-#endif

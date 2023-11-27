@@ -1,5 +1,4 @@
-#ifndef SMT_SMTOBJECT_H
-#define SMT_SMTOBJECT_H
+#pragma once
 
 class SMTFactory;
 
@@ -29,5 +28,3 @@ public:
 		return *Factory;
 	}
 };
-
-#endif

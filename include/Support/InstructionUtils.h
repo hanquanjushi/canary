@@ -1,5 +1,5 @@
-#ifndef PROJECT_INSTRUCTIONUTILS_H
-#define PROJECT_INSTRUCTIONUTILS_H
+
+#pragma once
 #include "llvm/Pass.h"
 #include "llvm/IR/Function.h"
 #include "llvm/Support/raw_ostream.h"
@@ -76,5 +76,3 @@ public:
 	 */
 	static DILocation* getCorrectInstrLocation(Instruction *I);
 };
-
-#endif //PROJECT_INSTRUCTIONUTILS_H

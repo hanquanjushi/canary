@@ -1,5 +1,4 @@
-#ifndef SMT_SMTFACTORY_H
-#define SMT_SMTFACTORY_H
+#pragma once
 
 #include <string>
 #include <mutex>
@@ -145,4 +144,3 @@ private:
 			std::map<SMTExpr, bool, SMTExprComparator>&, SMTRenamingAdvisor*);
 };
 
-#endif

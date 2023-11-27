@@ -1,8 +1,7 @@
-#ifndef SMT_SMTMODEL_H
-#define SMT_SMTMODEL_H
+#pragma once
 
 #include <string>
-#include <llvm/Support/Debug.h>
+// #include <llvm/Support/Debug.h>
 
 #include "z3++.h"
 #include "z3.h"
@@ -55,4 +54,3 @@ public:
 
 };
 
-#endif

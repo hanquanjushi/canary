@@ -1,8 +1,7 @@
-#ifndef SMT_SMTSOLVER_H
-#define SMT_SMTSOLVER_H
+#pragma once
 
 #include <vector>
-#include <llvm/Support/Debug.h>
+// #include <llvm/Support/Debug.h>
 
 #include "z3++.h"
 #include "SMTObject.h"
@@ -105,30 +104,5 @@ public:
 	friend class SMTModel;
 	friend class SMTFactory;
 
-private:
-#ifdef __linux__
-    /// The followings are used when smtd is enabled
-    /// @{
-    class SMTDMessageQueues {
-    public:
-        /// User ID for communication
-        long UserID = 0;
-
-        /// This field is to pass command to smtd's master
-        std::shared_ptr<MessageQueue> CommandMSQ;
-        /// This field is for other communication with smtd's master
-        std::shared_ptr<MessageQueue> CommunicateMSQ;
-        /// This field is for communication with one of the smtd's slaves
-        std::shared_ptr<MessageQueue> WorkerMSQ;
-
-        ~SMTDMessageQueues();
-    };
-
-    std::shared_ptr<SMTDMessageQueues> Channels;
-#endif // __linux__
-	/// reconnect to smtd
-	void reconnect();
-	/// @}
 };
 
-#endif

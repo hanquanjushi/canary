@@ -1,5 +1,4 @@
-#ifndef SMT_SMTCONFIGURE_H
-#define SMT_SMTCONFIGURE_H
+#pragma once
 
 class SMTConfigure {
 public:
@@ -10,5 +9,3 @@ public:
 public:
 	static void init(int Timeout);
 };
-
-#endif
