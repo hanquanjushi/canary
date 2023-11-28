@@ -37,6 +37,8 @@ add_library(CanaryCUDD STATIC
 	st.c
 )
 
+set_target_properties(CanaryCUDD PROPERTIES COMPILE_FLAGS "-Wno-format -Wno-int-to-pointer-cast -Wno-pointer-to-int-cast -DHAVE_IEEE_754 -DSIZEOF_VOID_P=8 -DSIZEOF_LONG=8")
+
 # add_llvm_library(Cudd ${SOURCES} LINK_LIBS m)
 
 

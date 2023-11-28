@@ -5,9 +5,9 @@ Canary is a program analysis and verification framework. It provides severl tool
 individully or in combination to perform different tasks.
 The current version of Canary has been tested on x86 Linux architectures using LLVM-12 and Z3-4.11.
 
-- Alias Analysis: a unification-based alias analysis (`lib/DyckAA`)
-- SMT Solving (`lib/SMT`)
-- Binary Decision Diagram (BDD): (`lib/cudd`)
+- Alias Analysis: a unification-based, exhuastive alias analysis (See `lib/DyckAA`)
+- SMT Solving (See `lib/SMT`)
+- Binary Decision Diagram (BDD): (See `lib/cudd`)
 
 
 ## Building 
@@ -22,7 +22,7 @@ cmake ..
 make
 ```
 
-We asume that the system has the right versions of llvm and Z3.
+Currently, we asume that the system has the right versions of LLVM and Z3.
 
 
 ## Using the Alias Analysis
@@ -67,19 +67,19 @@ to the edges in call graphs.
 
 
 ~~~~
-owl file.smt2
+./owl file.smt2
 ~~~~
 
-## TODOLIST
+## TODO LIST
 
 
 
 - Add unit test (at least for the SMT library)
-- Integrate the pre-condition inference engine in Beacon, which relies on some code from KLEE (it does not use the symbolic execution engine in KLEE) and SVF
+- Integrate the pre-condition inference engine in Beacon (SP'22), which relies on some code from KLEE (it does not use the symbolic execution engine in KLEE) and SVF. 
 - Integrate SVF as a library, which implementes several pointer analsyes with different precisions.
 - IR optimization: reduant load/store elimination, control-flow refinement, superoptimization, etc.
-- Slicing (e.g., conventional slicing, thin slicing, hybrid thin slicing ...)
-- (Low priority) Instrumentation
+- Slicing (e.g., conventional slicing, thin slicing, hybrid thin slicing, ...)
+- Instrumentation
 - (Low priority) Symbolic emulation/execution (e.g., KLEE, ...)
 - (Low priority) Numerical abstract interpretation (e.g., IKOS, CLAM/Crab, ...)
 - (Low priority) Software model checking (e.g., Smarck, Seahorn, ...)
