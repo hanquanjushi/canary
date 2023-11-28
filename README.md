@@ -14,7 +14,7 @@ The current version of Canary has been tested on x86 Linux architectures using L
 
 
 ```bash
-git clone https://github.com/qingkaishi/canary.git
+git clone https://github.com/ZJU-Automated-Reasoning-Group/canary
 cd canary
 mkdir build
 cd build

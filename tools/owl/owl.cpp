@@ -1,16 +1,41 @@
 #include <memory>
-// #include "Support/RecursiveTimer.h"
-// #include "Support/Statistics.h"
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "SMT/SMTSolver.h"
 #include "SMT/SMTFactory.h"
+#include "SMT/CNF.h"
+#include "SMT/SATSolver.h"
+
+#ifdef _MSC_VER
+#include <ctime>
+double _get_cpu_time(){
+  return (double) clock() / CLOCKS_PER_SEC;
+}
+#else
+
+#include <sys/time.h>
+
+#endif
+
 using namespace std;
 
-// using namespace llvm;
 
-// static cl::opt<std::string> InputFilename(cl::Positional,
-//		cl::desc("<input SMT file>"), cl::init("-"),
-//		cl::value_desc("filename"));
+int solveCNF(int argc, char **argv) {
+	if (argc < 2)
+		exit(0);
 
+	cnf *m_cnf = new cnf(argv[1]);
+	fflush(stdout);
+	sat_solver solver(*m_cnf);
+	delete m_cnf;
+	bool result = solver.run();
+	if (result) {
+		printf("s sat\n");
+	} else
+		printf("s unsat\n");
+	exit(result ? 10 : 20);
+}
 
 int main(int argc, char **argv) {
 	SMTFactory Ft;

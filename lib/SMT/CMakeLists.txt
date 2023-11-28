@@ -7,4 +7,6 @@ add_library(CanarySMT STATIC
         SMTSolver.cpp
         SMTOptimization.cpp
         SMTSampler.cpp
+        CNF.cpp
+        SATSolver.cpp
 )
