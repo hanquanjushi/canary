@@ -1,19 +1,17 @@
-Canary
-======
+# Canary
+
 
 Canary is a program analysis and verification framework. It provides severl toolkits that can be used
 individully or in combination to perform different tasks.
 The current version of Canary has been tested on x86 Linux architectures using LLVM-12 and Z3-4.11.
 
-- Alias analysis: a unification-based alias analysis
-- SMT solving
-- Pre-condition inferencer(TBD): using the upgrated version of Beacon
-- Symbolic emulation (TBD)
-- SVF (TBD): add SVF as a library
-- Instrumentation (TBD)
+- Alias Analysis: a unification-based alias analysis (`lib/DyckAA`)
+- SMT Solving (`lib/SMT`)
+- Binary Decision Diagram (BDD): (`lib/cudd`)
 
-Building 
-------
+
+## Building 
+
 
 ```bash
 git clone https://github.com/qingkaishi/canary.git
@@ -27,8 +25,8 @@ make
 We asume that the system has the right versions of llvm and Z3.
 
 
-Using the Alias Analysis
-------
+## Using the Alias Analysis
+
 
 Build and link the lib files to your project and use `DyckAliasAnalysis` as a common Mod pass. 
 You may use the following options.
@@ -65,5 +63,27 @@ You can use it with -with-labels option, which will add lables (call insts)
 to the edges in call graphs.
 
 
-Using the SMT Solver
-------
+## Using the SMT Solver
+
+
+~~~~
+owl file.smt2
+~~~~
+
+## TODOLIST
+
+
+
+- Add unit test (at least for the SMT library)
+- Integrate the pre-condition inference engine in Beacon, which relies on some code from KLEE (it does not use the symbolic execution engine in KLEE) and SVF
+- Integrate SVF as a library, which implementes several pointer analsyes with different precisions.
+- IR optimization: reduant load/store elimination, control-flow refinement, superoptimization, etc.
+- Slicing (e.g., conventional slicing, thin slicing, hybrid thin slicing ...)
+- (Low priority) Instrumentation
+- (Low priority) Symbolic emulation/execution (e.g., KLEE, ...)
+- (Low priority) Numerical abstract interpretation (e.g., IKOS, CLAM/Crab, ...)
+- (Low priority) Software model checking (e.g., Smarck, Seahorn, ...)
+- (Low priority) Analyzing IR lifted from binaries (e.g., by Remill, retdec, ...)
+- (Low priority) Clang AST-based bug checking (e.g., Clang static analyzer, ...)
+- (Low priority) Data flow analsyis frameowrk (e.g., Pharsar, ...)
+
