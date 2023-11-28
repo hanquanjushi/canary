@@ -1,6 +1,3 @@
 #include "SMT/SMTObject.h"
 
-SMTObject::~SMTObject() {
-
-}
-
+SMTObject::~SMTObject() {}

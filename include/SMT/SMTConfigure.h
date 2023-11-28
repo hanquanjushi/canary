@@ -2,10 +2,10 @@
 
 class SMTConfigure {
 public:
-	static int Timeout;
+  static int Timeout;
 
-	// static std::string Tactic;
+  // static std::string Tactic;
 
 public:
-	static void init(int Timeout);
+  static void init(int Timeout);
 };

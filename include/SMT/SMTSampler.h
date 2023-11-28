@@ -1,23 +1,23 @@
 
 #pragma once
 
-#include <vector>
+#include <algorithm>
+#include <chrono>
+#include <ctime>
+#include <fstream>
+#include <iomanip>
+#include <iostream>
 #include <map>
 #include <set>
-#include <iostream>
-#include <unordered_set>
-#include <unordered_map>
-#include <ctime>
-#include <iomanip>
-#include <chrono>
-#include <algorithm>
-#include <fstream>
 #include <sstream>
 #include <string.h>
+#include <unordered_map>
+#include <unordered_set>
+#include <vector>
 
+#include <dirent.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <dirent.h>
 
 #include <z3++.h>
 
@@ -26,8 +26,6 @@
 using namespace std;
 using namespace z3;
 
-
 class quicksampler;
 
 class regionsampler;
-
