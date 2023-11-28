@@ -1,5 +1,3 @@
-
-
 #include "SMT/SMTFactory.h"
 #include "SMT/SMTConfigure.h"
 
@@ -11,6 +9,7 @@ SMTFactory::SMTFactory() :
 		TempSMTVaraibleIndex(0) {
 
 }
+
 
 SMTExprVec SMTFactory::translate(const SMTExprVec &Exprs) {
 	if (Exprs.empty()) {
@@ -147,6 +146,8 @@ std::pair<SMTExprVec, bool> SMTFactory::rename(const SMTExprVec &Exprs,
 
 	return std::make_pair(RetExprVec, RetBool);
 }
+
+
 
 bool SMTFactory::visit(SMTExpr &Expr2Visit,
 		std::unordered_map<std::string, SMTExpr> &Mapping, SMTExprVec &ToPrune,

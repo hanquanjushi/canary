@@ -3,7 +3,6 @@
 #include <map>
 #include <iostream>
 #include <memory>
-#include <llvm/Support/raw_ostream.h>
 
 #include "z3++.h"
 #include "SMTObject.h"
@@ -90,7 +89,6 @@ public:
 	DECLARE_BINARY_OPERATION_T_EXPR(||, bool)
 	DECLARE_BINARY_OPERATION_T_EXPR(&&, bool)
 
-	friend llvm::raw_ostream& operator<<(llvm::raw_ostream&, SMTExpr);
 
 	friend std::ostream& operator<<(std::ostream&, SMTExpr const&);
 
@@ -443,8 +441,6 @@ public:
 	friend class SMTSolver;
 	friend class SMTExpr;
 
-	friend llvm::raw_ostream& operator<<(llvm::raw_ostream &Out,
-			SMTExprVec Vec);
 	friend std::ostream& operator<<(std::ostream &Out, SMTExprVec Vec);
 
 	bool SMTExprVecToStream(std::string &ExprStr);

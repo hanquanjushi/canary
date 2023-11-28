@@ -6,10 +6,6 @@
 #include "SMT/SMTModel.h"
 #include "SMT/SMTConfigure.h"
 
-#ifdef __linux__
-#include "Support/MessageQueue.h"
-#endif // __linux__
-
 #include <time.h>
 #include <map>
 #include <iostream>
@@ -182,15 +178,6 @@ SMTSolver::SMTResultType SMTSolver::check(unsigned Timeout) {
 			z3::tactic fastCheckTactic = z3::try_for(
 					z3::tactic(Solver.ctx(), "bv-fast-check"), Timeout);
 			Z3_lbool Res = fastCheckTactic(G)[0].as_expr().bool_value();
-
-			/*
-			 z3::solver Sol = z3::tactic(Solver.ctx(), "pp_qfbv_light").mk_solver();
-			 z3::params Param(Solver.ctx());
-			 Param.set("max_conflicts", 500u);
-			 Sol.set(Param);
-			 Sol.add(Whole.Expr);
-			 auto Res = Sol.check();
-			 */
 
 			SMTResultType RetVal = SMTResultType::SMTRT_Unknown;
 

@@ -21,7 +21,7 @@
 
 #include <z3++.h>
 
-#include "Support/Z3Plus.h"
+#include "Z3Plus.h"
 
 using namespace std;
 using namespace z3;

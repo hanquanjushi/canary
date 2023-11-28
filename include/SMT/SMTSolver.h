@@ -1,7 +1,6 @@
 #pragma once
 
 #include <vector>
-// #include <llvm/Support/Debug.h>
 
 #include "z3++.h"
 #include "SMTObject.h"
@@ -91,12 +90,6 @@ public:
 	static void setDefaultGlobalTimeout(int NewTimeout);
 
 	friend std::ostream& operator<<(std::ostream &O, SMTSolver &Solver) {
-		O << Solver.Solver.to_smt2() << "\n";
-		return O;
-	}
-
-	friend llvm::raw_ostream& operator<<(llvm::raw_ostream &O,
-			SMTSolver &Solver) {
 		O << Solver.Solver.to_smt2() << "\n";
 		return O;
 	}

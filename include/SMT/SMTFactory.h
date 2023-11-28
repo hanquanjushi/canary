@@ -90,6 +90,9 @@ public:
 
 	SMTExpr createIntDomainConstantArray(SMTExpr &ElmtExpr);
 
+
+
+
 	/// This function translate an SMTExprVec/SMTExpr (the 1st parameter) created
 	/// by other SMTFactory to the context of this SMTFactory.
 	SMTExprVec translate(const SMTExprVec&);
@@ -113,6 +116,8 @@ public:
 	std::pair<SMTExprVec, bool> rename(const SMTExprVec&, const std::string&,
 			std::unordered_map<std::string, SMTExpr>&, SMTRenamingAdvisor* =
 					nullptr);
+
+
 
 	std::mutex& getFactoryLock() {
 		return FactoryLock;

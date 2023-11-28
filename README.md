@@ -7,8 +7,10 @@ The current version of Canary has been tested on x86 Linux architectures using L
 
 - Alias analysis: a unification-based alias analysis
 - SMT solving
-- Pre-condition inferencer(TBD)
+- Pre-condition inferencer(TBD): using the upgrated version of Beacon
 - Symbolic emulation (TBD)
+- SVF (TBD): add SVF as a library
+- Instrumentation (TBD)
 
 Building 
 ------

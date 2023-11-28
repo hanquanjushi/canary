@@ -3,7 +3,6 @@
 #include <utility>
 #include <functional>
 #include <algorithm>
-#include <llvm/Support/Debug.h>
 #include "SMT/SMTExpr.h"
 #include "SMT/SMTFactory.h"
 
@@ -980,11 +979,6 @@ BINARY_OPERATION_INT_EXPR(-)
 BINARY_OPERATION_INT_EXPR(*)
 BINARY_OPERATION_INT_EXPR(/)
 
-llvm::raw_ostream& operator<<(llvm::raw_ostream &Out, SMTExpr E) {
-	z3::expr &Z3Expr = E.Expr;
-	Out << Z3_ast_to_string(Z3Expr.ctx(), Z3Expr);
-	return Out;
-}
 
 std::ostream& operator<<(std::ostream &Out, SMTExpr const &N) {
 	Out << N.Expr;
@@ -1256,14 +1250,6 @@ SMTExprVec SMTExprVec::setDifference(const SMTExprVec &Vars) {
 	return Ret;
 }
 
-llvm::raw_ostream& operator<<(llvm::raw_ostream &Out, SMTExprVec Vec) {
-	if (Vec.ExprVec.get() == nullptr) {
-		Out << "(empty vector)";
-		return Out;
-	}
-	Out << Z3_ast_vector_to_string(Vec.ExprVec->ctx(), *Vec.ExprVec);
-	return Out;
-}
 
 std::ostream& operator<<(std::ostream &Out, SMTExprVec Vec) {
 	if (Vec.ExprVec.get() == nullptr) {

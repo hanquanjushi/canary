@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-// #include <llvm/Support/Debug.h>
 
 #include "z3++.h"
 #include "z3.h"
@@ -47,10 +46,6 @@ public:
 		return Out;
 	}
 
-	friend llvm::raw_ostream& operator<<(llvm::raw_ostream &Out, SMTModel &M) {
-		Out << Z3_model_to_string(M.Model.ctx(), M.Model) << "\n";
-		return Out;
-	}
 
 };
 
