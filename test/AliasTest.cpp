@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
 #include <map>
+#include <climits>
 #include <cstdint>
 
 // Returns n! (the factorial of n).  For negative n, n! is defined to be 1.
