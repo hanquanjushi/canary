@@ -34,28 +34,28 @@
 //        inside the for loop
 //
 
-#ifndef __PROGRESSBAR_HPP
-#define __PROGRESSBAR_HPP
+#ifndef __CSProgressBar_HPP
+#define __CSProgressBar_HPP
 
 #include <iostream>
 #include <string>
 #include <stdexcept>
 
-class ProgressBar {
+class CSProgressBar {
 
     public:
       // default destructor
-      ~ProgressBar()                             = default;
+      ~CSProgressBar()                             = default;
 
       // delete everything else
-      ProgressBar           (ProgressBar const&) = delete;
-      ProgressBar& operator=(ProgressBar const&) = delete;
-      ProgressBar           (ProgressBar&&)      = delete;
-      ProgressBar& operator=(ProgressBar&&)      = delete;
+      CSProgressBar           (CSProgressBar const&) = delete;
+      CSProgressBar& operator=(CSProgressBar const&) = delete;
+      CSProgressBar           (CSProgressBar&&)      = delete;
+      CSProgressBar& operator=(CSProgressBar&&)      = delete;
 
       // default constructor, must call set_niter later
-      ProgressBar();
-      ProgressBar(int n, bool showbar=true);
+      CSProgressBar();
+      CSProgressBar(int n, bool showbar=true);
 
       // reset bar to use it again
       void reset();

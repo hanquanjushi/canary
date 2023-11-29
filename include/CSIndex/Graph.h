@@ -15,7 +15,8 @@
 #include <string>
 #include <cassert>
 #include <unordered_map>
-#include "bit_vector.h"
+
+#include "BitVector.h"
 
 using namespace std;
 

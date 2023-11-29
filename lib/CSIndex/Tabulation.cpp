@@ -121,7 +121,7 @@ double Tabulation::tc() {
     signal(SIGALRM, alarm_handler);
     timeout = false;
     alarm(3600 * 6);
-    ProgressBar bar(vfg.num_vertices());
+    CSProgressBar bar(vfg.num_vertices());
 
     double ret = 0;
     std::map<int, std::set<int>> tc;

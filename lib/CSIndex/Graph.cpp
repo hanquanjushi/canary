@@ -513,7 +513,7 @@ void Graph::removeEdge(int s, int t) {
 
 void Graph::check() {
     cout << "Checking correctness of the input graph..." << endl;
-    ProgressBar bar(n_vertices);
+    CSProgressBar bar(n_vertices);
     for (int i = 0; i < n_vertices; ++i) {
         Vertex& v = at(i);
         auto &inList = graph[i].inList;
@@ -540,7 +540,7 @@ void Graph::check() {
     cout << endl;
 
     std::map<int, std::set<int>> func_arg_map;
-    ProgressBar bar2(pos_label_map.size());
+    CSProgressBar bar2(pos_label_map.size());
     for (auto pit : pos_label_map) {
         int formalin = pit.first.second;
         auto& vertex = this->at(formalin);

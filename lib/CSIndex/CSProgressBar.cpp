@@ -36,7 +36,7 @@
 
 #include "CSIndex/CSProgressBar.h"
 
-ProgressBar::ProgressBar() :
+CSProgressBar::CSProgressBar() :
     progress(0),
     n_cycles(0),
     last_perc(0),
@@ -47,7 +47,7 @@ ProgressBar::ProgressBar() :
     opening_bracket_char("["),
     closing_bracket_char("]") {}
 
-ProgressBar::ProgressBar(int n, bool showbar) :
+CSProgressBar::CSProgressBar(int n, bool showbar) :
     progress(0),
     n_cycles(n),
     last_perc(0),
@@ -58,24 +58,24 @@ ProgressBar::ProgressBar(int n, bool showbar) :
     opening_bracket_char("["),
     closing_bracket_char("]") {}
 
-void ProgressBar::reset() {
+void CSProgressBar::reset() {
     progress = 0,
     update_is_called = false;
     last_perc = 0;
     return;
 }
 
-void ProgressBar::set_niter(int niter) {
+void CSProgressBar::set_niter(int niter) {
     if (niter <= 0) throw std::invalid_argument(
-        "ProgressBar::set_niter: number of iterations null or negative");
+        "CSProgressBar::set_niter: number of iterations null or negative");
     n_cycles = niter;
     return;
 }
 
-void ProgressBar::update() {
+void CSProgressBar::update() {
 
     if (n_cycles == 0) throw std::runtime_error(
-            "ProgressBar::update: number of cycles not set");
+            "CSProgressBar::update: number of cycles not set");
 
     if (!update_is_called) {
         if (do_show_bar == true) {

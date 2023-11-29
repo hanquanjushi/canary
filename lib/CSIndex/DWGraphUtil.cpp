@@ -264,7 +264,7 @@ void DWGraphUtil::findMaxBranching(DWGraph& g, DWGraph& maxBranch) {
 				prop.id = sccvec.back();
 				prop.weight = weight;
 				prop.edgeid = edgeid;
-				sccPropMap.insert(make_pair(*rvit, prop));
+				sccPropMap.insert(std::make_pair(*rvit, prop));
 			}
 			if (weight < minw)
 				minw = weight;

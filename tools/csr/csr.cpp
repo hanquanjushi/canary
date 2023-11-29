@@ -163,7 +163,7 @@ static void read_or_generate_queries(
         int reachable_count = 0;
         int unreachable_count = 0;
         srand48(time(nullptr));
-        ProgressBar bar(query_num * 2);
+        CSProgressBar bar(query_num * 2);
         while (reachable_count < query_num || unreachable_count < query_num) {
             int s = (int) lrand48() % (orig_vfg_size);
             int t = (int) lrand48() % (orig_vfg_size) + orig_vfg_size;
