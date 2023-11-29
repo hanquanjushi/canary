@@ -7,6 +7,8 @@
 
 #pragma once
 
+#include <stdio.h>
+
 #include "CNF.h"
 
 struct luby {             // restart scheduler as proposed in

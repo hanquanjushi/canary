@@ -9,6 +9,8 @@
 
 #include <deque>
 #include <vector>
+#include <math.h>
+#include <stddef.h>
 
 using namespace std;
 
