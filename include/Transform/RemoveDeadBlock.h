@@ -16,25 +16,25 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef TRANSFORM_LOWERCONSTANTEXPR_H
-#define TRANSFORM_LOWERCONSTANTEXPR_H
+#ifndef TRANSFORM_REMOVEDEADBLOCK_H
+#define TRANSFORM_REMOVEDEADBLOCK_H
 
 #include <llvm/IR/Module.h>
 #include <llvm/Pass.h>
 
 using namespace llvm;
 
-class LowerConstantExpr : public ModulePass {
+class RemoveDeadBlock : public ModulePass {
 public:
     static char ID;
 
-    LowerConstantExpr() : ModulePass(ID) {}
+    RemoveDeadBlock() : ModulePass(ID) {}
 
-    ~LowerConstantExpr() override = default;
+    ~RemoveDeadBlock() override = default;
 
     void getAnalysisUsage(AnalysisUsage &) const override;
 
     bool runOnModule(Module &) override;
 };
 
-#endif //TRANSFORM_LOWERCONSTANTEXPR_H
+#endif //TRANSFORM_REMOVEDEADBLOCK_H

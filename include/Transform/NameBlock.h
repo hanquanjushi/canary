@@ -16,25 +16,25 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef TRANSFORM_LOWERCONSTANTEXPR_H
-#define TRANSFORM_LOWERCONSTANTEXPR_H
+#ifndef TRANSFORM_NAMEBLOCK_H
+#define TRANSFORM_NAMEBLOCK_H
 
 #include <llvm/IR/Module.h>
 #include <llvm/Pass.h>
 
 using namespace llvm;
 
-class LowerConstantExpr : public ModulePass {
+class NameBlock : public ModulePass {
 public:
     static char ID;
 
-    LowerConstantExpr() : ModulePass(ID) {}
+    NameBlock() : ModulePass(ID) {}
 
-    ~LowerConstantExpr() override = default;
+    ~NameBlock() override = default;
 
     void getAnalysisUsage(AnalysisUsage &) const override;
 
     bool runOnModule(Module &) override;
 };
 
-#endif //TRANSFORM_LOWERCONSTANTEXPR_H
+#endif //TRANSFORM_NAMEBLOCK_H

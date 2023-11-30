@@ -16,25 +16,26 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef TRANSFORM_LOWERCONSTANTEXPR_H
-#define TRANSFORM_LOWERCONSTANTEXPR_H
+#include <llvm/IR/Constants.h>
+#include <llvm/IR/Instructions.h>
+#include <llvm/IR/Verifier.h>
+#include <llvm/Support/Debug.h>
+#include "Transform/RemoveNoRetFunction.h"
 
-#include <llvm/IR/Module.h>
-#include <llvm/Pass.h>
+#define DEBUG_TYPE "RemoveNoRetFunction"
 
-using namespace llvm;
+char RemoveNoRetFunction::ID = 0;
+static RegisterPass<RemoveNoRetFunction> X(DEBUG_TYPE, "removing a function that never returns");
 
-class LowerConstantExpr : public ModulePass {
-public:
-    static char ID;
+void RemoveNoRetFunction::getAnalysisUsage(AnalysisUsage &AU) const {
+}
 
-    LowerConstantExpr() : ModulePass(ID) {}
-
-    ~LowerConstantExpr() override = default;
-
-    void getAnalysisUsage(AnalysisUsage &) const override;
-
-    bool runOnModule(Module &) override;
-};
-
-#endif //TRANSFORM_LOWERCONSTANTEXPR_H
+bool RemoveNoRetFunction::runOnModule(Module &M) {
+    for (auto &F: M) {
+        if (F.doesNotReturn()) {
+            F.deleteBody();
+            F.setComdat(nullptr);
+        }
+    }
+    return false;
+}

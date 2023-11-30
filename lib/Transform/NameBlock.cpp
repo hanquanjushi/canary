@@ -16,25 +16,27 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef TRANSFORM_LOWERCONSTANTEXPR_H
-#define TRANSFORM_LOWERCONSTANTEXPR_H
+#include <llvm/IR/Constants.h>
+#include <llvm/IR/Instructions.h>
+#include <llvm/IR/Verifier.h>
+#include <llvm/Support/Debug.h>
+#include "Transform/NameBlock.h"
 
-#include <llvm/IR/Module.h>
-#include <llvm/Pass.h>
+#define DEBUG_TYPE "NameBlock"
 
-using namespace llvm;
+char NameBlock::ID = 0;
+static RegisterPass<NameBlock> X(DEBUG_TYPE, "Naming each block for dbg");
 
-class LowerConstantExpr : public ModulePass {
-public:
-    static char ID;
+void NameBlock::getAnalysisUsage(AnalysisUsage &AU) const {
+    AU.setPreservesAll();
+}
 
-    LowerConstantExpr() : ModulePass(ID) {}
-
-    ~LowerConstantExpr() override = default;
-
-    void getAnalysisUsage(AnalysisUsage &) const override;
-
-    bool runOnModule(Module &) override;
-};
-
-#endif //TRANSFORM_LOWERCONSTANTEXPR_H
+bool NameBlock::runOnModule(Module &M) {
+    for (auto &F: M) {
+        unsigned BI = 0;
+        for (auto &B: F) {
+            if (!B.hasName()) B.setName("B" + std::to_string(++BI));
+        }
+    }
+    return false;
+}

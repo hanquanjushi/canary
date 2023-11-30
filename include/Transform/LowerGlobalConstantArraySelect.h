@@ -1,6 +1,6 @@
 /*
  *  Popeye lifts protocol source code in C to its specification in BNF
- *  Copyright (C) 2021 Qingkai Shi <qingkaishi@gmail.com>
+ *  Copyright (C) 2022 Qingkai Shi <qingkaishi@gmail.com>
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -16,25 +16,35 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef TRANSFORM_LOWERCONSTANTEXPR_H
-#define TRANSFORM_LOWERCONSTANTEXPR_H
+
+#ifndef TRANSFORM_LOWERGLOBALCONSTANTARRAYSELECT_H
+#define TRANSFORM_LOWERGLOBALCONSTANTARRAYSELECT_H
 
 #include <llvm/IR/Module.h>
 #include <llvm/Pass.h>
+#include <map>
 
 using namespace llvm;
 
-class LowerConstantExpr : public ModulePass {
+class LowerGlobalConstantArraySelect : public ModulePass {
+private:
+    std::map<Value *, Function *> SelectFuncMap;
+
 public:
     static char ID;
 
-    LowerConstantExpr() : ModulePass(ID) {}
+    LowerGlobalConstantArraySelect() : ModulePass(ID) {}
 
-    ~LowerConstantExpr() override = default;
+    ~LowerGlobalConstantArraySelect() override = default;
 
     void getAnalysisUsage(AnalysisUsage &) const override;
 
     bool runOnModule(Module &) override;
+
+private:
+    bool isSelectGlobalConstantArray(Instruction &I);
+
+    void initialize(Function *F, ConstantDataArray *CDA);
 };
 
-#endif //TRANSFORM_LOWERCONSTANTEXPR_H
+#endif //TRANSFORM_LOWERGLOBALCONSTANTARRAYSELECT_H

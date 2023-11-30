@@ -16,25 +16,25 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef TRANSFORM_LOWERCONSTANTEXPR_H
-#define TRANSFORM_LOWERCONSTANTEXPR_H
+#ifndef TRANSFORM_SIMPLIFYLATCH_H
+#define TRANSFORM_SIMPLIFYLATCH_H
 
 #include <llvm/IR/Module.h>
 #include <llvm/Pass.h>
 
 using namespace llvm;
 
-class LowerConstantExpr : public ModulePass {
+class SimplifyLatch : public ModulePass {
 public:
     static char ID;
 
-    LowerConstantExpr() : ModulePass(ID) {}
+    SimplifyLatch() : ModulePass(ID) {}
 
-    ~LowerConstantExpr() override = default;
+    ~SimplifyLatch() override = default;
 
     void getAnalysisUsage(AnalysisUsage &) const override;
 
     bool runOnModule(Module &) override;
 };
 
-#endif //TRANSFORM_LOWERCONSTANTEXPR_H
+#endif //TRANSFORM_SIMPLIFYLATCH_H
