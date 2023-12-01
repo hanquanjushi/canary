@@ -7,4 +7,5 @@ add_library(CanarySupport STATIC
         Statistics.cpp
         ThreadPool.cpp
         InstructionUtils.cpp
+        Debug.cpp
 )
