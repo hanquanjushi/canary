@@ -34,6 +34,7 @@ set(LLVM_LINK_COMPONENTS
         LLVMipo
 )
 
+set(CMAKE_BUILD_TYPE Debug)
 add_executable(canary canary.cpp)
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     target_link_libraries(canary PRIVATE
