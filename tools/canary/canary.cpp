@@ -96,7 +96,6 @@ int main(int argc, char **argv) {
 
     legacy::PassManager Passes;
 
-
     auto *TransformTimer = new RecursiveTimerPass("Transforming the bitcode");
     Passes.add(TransformTimer->start());
     Passes.add(createLowerAtomicPass());

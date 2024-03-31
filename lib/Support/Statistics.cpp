@@ -15,7 +15,7 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-
+#include <cstdio>
 #include "Support/Statistics.h"
 #include <llvm/IR/InstIterator.h>
 #include <llvm/IR/Instruction.h>
@@ -34,7 +34,10 @@ void Statistics::run(Module &M) {
       ++NumInstructions;
       for (unsigned K = 0; K < I.getNumOperands(); ++K) {
         if (I.getOperand(K)->getType()->isPointerTy()) {
+          printf ("Instruction: %s\n", I.getOpcodeName());
           ++NumPointerInstructions;
+          //打印I.getOperand(K)
+       //   printf ("Operand: %s\n", I.getOperand(K)->getName().str().c_str());
           break;
         }
       }
@@ -49,12 +52,14 @@ void Statistics::run(Module &M) {
             for (unsigned K = 0; K < CI->getNumArgOperands(); ++K) {
               if (CI->getArgOperand(K)->getType()->isPointerTy()) {
                 ++NumDerefInstructions;
+                printf ("Instruction: %s\n", I.getOpcodeName());
                 break;
               }
             }
           }
         } else {
           ++NumDerefInstructions;
+         // printf ("Instruction: %s\n", I.getOpcodeName());
         }
       }
     }

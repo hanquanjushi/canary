@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/build/bin/canary",
             "args": [
-                "${workspaceFolder}/benchmarks/spec2006/400.perlbench.bc"
+                "${workspaceFolder}/benchmarks/test1.bc"
             ],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
